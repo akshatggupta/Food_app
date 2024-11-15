@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Items</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        async function fetchFoodItems() {
+            const response = await fetch('/available_food');
+            const data = await response.json();
+            const foodItems = data.food_items;
+            let foodList = document.getElementById('food-list');
+            foodList.innerHTML = '';  // Clear the existing list
+            
+            foodItems.forEach(item => {
+                const li = document.createElement('li');
+                // Use backticks for template literals
+                li.innerHTML = `<strong>${item.food_name}</strong> - ${item.quantity} units - <span class="expiry">Expires: ${item.expiry_date}</span> - Location: ${item.location}`;
+                li.classList.add('food-item');
+                foodList.appendChild(li);
+            });
+        }
+    </script>
+    
+</head>
+<body onload="fetchFoodItems()">
+    <div class="container">
+        <h1>Available Food Items</h1>
+        <ul id="food-list" class="food-list"></ul>
+    </div>
+</body>
+</html>

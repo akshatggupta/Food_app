@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robinhood Food Sharing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel = "stylesheet" href="/templates/">
+    <style>
+        /* Global Style */
+        body {
+            margin: 0;
+            font-family: Okra, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        nav .logo {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff9a9e;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background-image: url('https://wallpapers.com/images/featured/food-4k-1pf6px6ryqfjtnyr.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+            background-attachment: fixed;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #ff9a9e;
+            animation: typing 4s steps(40) 1s 1 normal both, blink 0.75s step-end infinite;
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .hero button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: #ff9a9e;
+            transform: scale(1.1);
+        }
+
+        /* Why Donate Section */
+        .why-donate {
+            padding: 60px 20px;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .why-donate h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .why-donate p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 60px 20px;
+            background-color: #f5f7fa;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .testimonials p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .testimonial-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+
+        .testimonial-card img {
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-card p {
+            font-size: 16px;
+            color: #777;
+        }
+
+        /* Food Waste Section */
+        .food-waste {
+            padding: 60px 20px;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .food-waste h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .food-waste p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* How We Work Section */
+        .how-we-work {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 20px;
+            background-color: #f7f7f7;
+        }
+
+        .how-we-work img {
+            width: 45%;
+            border-radius: 10px;
+        }
+
+        .how-we-work div {
+            width: 50%;
+            text-align: right;
+        }
+
+        .how-we-work h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .how-we-work p {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Chatbot Section */
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff9a9e;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            opacity: 0;
+            transform: translateY(100px);
+            animation: popupChatbot 0.8s forwards;
+        }
+
+        .chatbot button {
+            background-color: #ff6f61;
+            border: none;
+            padding: 10px;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .chatbot button:hover {
+            background-color: #ff9a9e;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        footer h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            margin-top: 30px;
+        }
+
+        .social-icons a {
+            margin: 0 15px;
+            font-size: 24px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #ff9a9e;
+        }
+
+        /* Keyframes for Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popupChatbot {
+            from {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <div class="logo">Robinhood</div>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="{{ url_for('index') }}">Donate</a></li>     <!-- Add this line -->
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="{{ url_for('available_food') }}">View Food</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero" id="home">
+    <h1>Robinhood Food Sharing</h1>
+    <p>Helping You Share Leftover Food With Those In Need</p>
+    <button>Join Us</button>
+</div>
+
+<!-- Why Donate Section -->
+<div class="why-donate" id="donate">
+    <h2>Why Donate?</h2>
+    <p>Donating food can help reduce food waste and provide meals to those who need it the most. By sharing your leftovers, you contribute to a more sustainable future and help make a real difference in your community.</p>
+</div>
+
+<!-- Testimonials Section -->
+<div class="testimonials" id="testimonials">
+    <h2>What Our Users Say</h2>
+    <p>Here's what some of our users have to say about the service:</p>
+    <div class="testimonial-cards">
+        <div class="testimonial-card">
+            <img src="" alt="User">
+            <h3>John Doe</h3>
+            <p>"Robinhood helped me donate extra food from my restaurant to those in need. It's a great initiative!"</p>
+        </div>
+        <div class="testimonial-card">
+            <img src="" alt="User">
+            <h3>Jane Smith</h3>
+            <p>"I was able to get food for my family for free thanks to Robinhood. Amazing work!"</p>
+        </div>
+    </div>
+</div>
+
+<!-- Food Waste Section -->
+<div class="food-waste" id="food-waste">
+    <h2>Food Waste Around the World</h2>
+    <p>Every year, 1.3 billion tons of food are wasted globally, which is about one-third of all food produced for human consumption. This wastage is not only a moral issue but also an environmental one. Wasting food contributes to climate change, as it requires resources like water, land, and energy to produce, process, and transport food that ends up in landfills. By reducing food waste and redistributing leftovers, we can help fight hunger and protect the planet.</p>
+</div>
+
+<!-- How We Work Section -->
+<div class="how-we-work">
+    <img src="https://c.stocksy.com/a/ANs200/z9/685668.jpg" alt="How We Work">
+    <div>
+        <h2>How We Work</h2>
+        <p>We partner with restaurants, catering services, PGs, and messes to collect leftover food, which is then either given away for free or at a reduced price to NGOs. You can pick up the food directly, or we can arrange for a delivery within a 500-meter radius through a delivery partner.</p>
+    </div>
+</div>
+
+<!-- Chatbot Section -->
+<div class="chatbot" id="chatbot">
+    <h3>Chat with Us</h3>
+    <button>Start Chat</button>
+</div>
+
+<!-- Footer -->
+<footer>
+    <h2>Follow Us</h2>
+    <p>Stay connected and support our cause on social media.</p>
+    <div class="social-icons">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+</footer>
+
+</body>
+</html>

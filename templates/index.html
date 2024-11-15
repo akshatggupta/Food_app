@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Food Item</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        async function addFoodItem() {
+            const foodName = document.getElementById('food_name').value;
+            const quantity = document.getElementById('quantity').value;
+            const expiryDate = document.getElementById('expiry_date').value;
+            const location = document.getElementById('location').value;
+    
+            try {
+                const response = await fetch('/add_food', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        food_name: foodName,
+                        quantity: quantity,
+                        expiry_date: expiryDate,
+                        location: location
+                    }),
+                });
+    
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);  // Success message
+                } else {
+                    alert(result.error);  // Error message
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the food item.');
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Food Item</h1>
+        <form onsubmit="event.preventDefault(); addFoodItem();">
+            <div class="form-group">
+                <label for="food_name">Food Name:</label>
+                <input type="text" id="food_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" required>
+            </div>
+
+            <div class="form-group">
+                <label for="expiry_date">Expiry Date:</label>
+                <input type="date" id="expiry_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" required>
+            </div>
+
+            <button type="submit" class="btn">Add Food Item</button>
+        </form>
+    </div>
+</body>
+</html>
