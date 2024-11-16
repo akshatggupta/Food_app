@@ -8,7 +8,13 @@ app = Flask(__name__)
 def home():
     return render_template('some.html')
 
-# Route for index.html
+# Route for user.html
+@app.route('/user1')
+def user1():
+    return render_template('user.html')
+
+
+
 @app.route('/index')
 def index():
     return render_template('index.html')

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍴 RobinHood Food Delivery</title>
+    <style>
+        /* CSS styles from styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: #ffc107;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar nav a {
+            color: #ffc107;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar nav a:hover {
+            background-color: #ffc107;
+            color: #343a40;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #ffc107;
+            border-radius: 2px;
+            transition: transform 0.3s;
+        }
+
+        /* Rest of the CSS from styles.css */
+        @media (max-width: 768px) {
+            .navbar nav {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: #343a40;
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s;
+            }
+
+            .navbar nav a {
+                padding: 10px;
+                text-align: center;
+                width: 100%;
+                border-bottom: 1px solid #ffc107;
+            }
+
+            .navbar nav.show {
+                max-height: 300px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+        }
+
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .menu-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item img {
+            width: 80px;
+            height: 80px;
+            margin-right: 16px;
+            border-radius: 4px;
+        }
+
+        .menu-item .item-details {
+            flex: 1;
+        }
+
+        .menu-item .item-details h3 {
+            margin: 0;
+            margin-bottom: 4px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .menu-item .item-details p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .menu-item .item-price {
+            color: #ff8c00;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid #ff8c00;
+            color: #ff8c00;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #ff8c00;
+            color: white;
+        }
+
+        /* Signup and Partner sections */
+        .signup-container {
+            background-color: #1a1f2b;
+            padding: 60px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+            align-items: center;
+        }
+
+        .signup-image {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .signup-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .signup-form {
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-header .subtitle {
+            color: #ffc107;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-header h2 {
+            font-size: 32px;
+            margin: 0;
+            color: white;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .signup-form button, .partner-section button {
+            width: 100%;
+            padding: 16px;
+            background-color: #ffc107;
+            border: none;
+            border-radius: 4px;
+            color: #1a1f2b;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .partner-section {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .partner-section h2 {
+            color: #ffc107;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🍴 RobinHood</h1>
+        <nav>
+            <a href="#">Home</a>
+        
+            
+            <a href="{{ url_for('available_food') }}">Menu</a>
+            <a href="#">Sign Up</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="intro-image">
+        <img src="https://wallpapers.com/images/hd/food-4k-raqfvgc6v1noenfm.jpg" alt="Delicious Food">
+    </div>
+    <section class ="menu-section">
+        <!-- Menu items -->
+        <div class="menu-item">
+            <img src="https://media.istockphoto.com/id/1299380316/photo/samosa-with-chutney-in-plate-asian-breakfast-aloo-samosa.jpg?s=612x612&w=0&k=20&c=5qZx0Iz-lyuETPv9SS1lVge2yw2gI3iAA4ArRp7yuu8=" alt="Aloo Samosa">
+            <div class="item-details">
+                <h3>Aloo Samosa</h3>
+                <p>Sandwedges, RDC Junction</p>
+                <div class="item-price">₹120</div>
+                <button class="add-to-cart-btn" onclick="addToCart('Aloo Samosa')">ADD TO CART</button>
+            </div>
+        </div>
+        
+        <!-- Repeat for other menu items -->
+        <div class="menu-item">
+            <img src="https://media.istockphoto.com/id/1185235273/photo/south-indian-style-egg-curry-recipe-close-up-in-a-plate-horizontal-top-view.jpg?s=612x612&w=0&k=20&c=dLaPOcwR-bYl1NH3uRTT6d6dwnKB-2G88ge1bB3dRnw=" alt="Egg Curry">
+            <div class="item-details">
+                <h3>Egg Curry</h3>
+                <p>Sandwedges, RDC Junction</p>
+                <div class="item-price">₹120</div>
+                <button class="add-to-cart-btn" onclick="addToCart('Egg Curry')">ADD TO CART</button>
+            </div>
+        </div>
+    <div class="menu-item">
+        <img src="https://c0.wallpaperflare.com/preview/995/37/232/oats-overnight-oats-porridge-sweet.jpg" alt="Food Item">
+        <div class="item-details">
+            <h3>Porridge</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <img src="https://www.shutterstock.com/image-photo/grilled-chicken-breast-fillet-steak-600nw-1955288725.jpg" alt="Food Item">
+        <div class="item-details">
+            <h3>Chicken Steak</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <img src="https://media.istockphoto.com/id/945606006/photo/chicken-fried-rice.jpg?s=612x612&w=0&k=20&c=n3p_r97vJlp013wlxD5WyDYviR0ADj6LiS5QKOYYQLY=" alt="Food Item">
+        <div class="item-details">
+            <h3>Fried Rice</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk49Q9GscFr-SvviUX8p55e0pGZkRcVU4W0Q&s" alt="Food Item">
+        <div class="item-details">
+            <h3>Frech Fries</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVKNes46UGqpaYe-319jx37Ql9IxtFTvmZVw&s" alt="Food Item">
+        <div class="item-details">
+            <h3>Margarita Pizza</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <img src="https://media.istockphoto.com/id/855749956/photo/roasted-sea-bream-fish-with-lemon-slices.jpg?s=612x612&w=0&k=20&c=nQhzbjXPnpBDexnk3oK-lU_twHhdTC5R2MixllKbHXE=" alt="Food Item">
+        <div class="item-details">
+            <h3>Grilled-Fish</h3>
+            <p>Sandwedges, RDC Junction</p>
+            <div class="item-price">₹120</div>
+            <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                ADD TO CART
+            </button>
+        </div>
+    </div>
+</section>
+
+        <script>
+            async function fetchFoodItems() {
+                try {
+                    const response = await fetch('/available_food');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    const foodItems = data.food_items;
+                    let foodList = document.getElementById('food-list');
+                    foodList.innerHTML = '';  // Clear the existing list
+                    
+                    foodItems.forEach(item => {
+                        const li = document.createElement('li');
+                        // Use backticks for template literals
+                        li.innerHTML = `<strong>${item.food_name}</strong> - ${item.quantity} units - <span class="expiry">Expires: ${item.expiry_date}</span> - Location: ${item.location}`;
+                        li.classList.add('food-item');
+                        foodList.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('food-list').innerHTML = '<li>Error loading food items</li>';
+                }
+            }
+    
+            // Ensure DOM is loaded before running the script
+            document.addEventListener('DOMContentLoaded', fetchFoodItems);
+        </script>
+
+        <!-- Add more menu items as needed -->
+    </div>
+
+    <div class="signup-container">
+        <div class="signup-content">
+            <div class="signup-image">
+                <img src="/api/placeholder/600/500" alt="Food Service Image">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="signup-form">
+                <div class="form-header">
+                    <span class="subtitle">SignUp</span>
+                    <h2>Be our customer</h2>
+                </div>
+                <form id="customerForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone" required>
+                    </div>
+                    <button type="submit">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="partner-section">
+        <h2>Want to be our food partner?</h2>
+        <form id="partnerForm">
+            <button type="submit">SUBMIT</button>
+        </form>
+    </div>
+
+    <script>
+        function addToCart(item) {
+            alert(`${item} added to cart!`);
+        }
+
+        function toggleMenu() {
+            const nav = document.querySelector('.navbar nav');
+            const hamburger = document.querySelector('.hamburger');
+            nav.classList.toggle('show');
+            hamburger.classList.toggle('active');
+        }
+
+        // Add event listeners to forms
+        document.getElementById('customerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for signing up!');
+        });
+
+        document.getElementById('partnerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for partnering with us!');
+        });
+    </script>
+</body>
+</html>
